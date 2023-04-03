@@ -1,0 +1,50 @@
+#Name: David Jin
+#Date: 3/20/2023
+#Objectives:
+#-Getting two numbers from user (integers)
+#-Compare numbers
+#-Print out greater number
+
+.data
+getNum1: .ascii "\nPlease enter an int: "
+getNum2: .ascii "\nPlease enter another int: "
+
+.text
+main:
+	#print out getNum1
+	li $v0, 4
+	la $a0, getNum1
+	syscall
+	
+	#get user input, store into $s0
+	li $v0, 5
+	syscall
+	move $s0, $v0 #user val 1
+	
+	
+	#print out getNum2
+	li $v0, 4
+	la $a0, getNum2
+	syscall
+	
+	#get user input, store into $s1
+	li $v0, 5
+	syscall
+	move $s1, $v0 #user val 2
+	
+	bgt $s0, $s1, firstVal
+	#$s0<$s1
+	li $v0, 1
+	move $a0, $s1
+	syscall
+	
+	j exit
+	
+firstVal:	#print out the greater number stored at $s0
+	li $v0, 1
+	move $a0, $s0
+	syscall
+	
+exit:
+	li $v0, 10
+	syscall
