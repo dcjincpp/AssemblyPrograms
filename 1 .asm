@@ -6,14 +6,14 @@
 #Background information: First assembly program homework assignment
 
 .data
-getNum1: .ascii "\nEnter a number: "
-getNum2: .ascii "\nEnter another number: "
-sum: .ascii "\nSum of the two numbers: "
-difference: .ascii "\nDifference of the two numbers: "
-product: .ascii "\nProduct of the two numbers: "
-quotient: .ascii "\nQuotient of the two numbers: "
-same: .ascii "\nUser inputs are the same"
-notSame: .ascii "\nUser inputs are not the same"
+getNum1: .asciiz "\nEnter a number: "
+getNum2: .asciiz "\nEnter another number: "
+sum: .asciiz "\nSum of the two numbers: "
+difference: .asciiz "\nDifference of the two numbers: "
+product: .asciiz "\nProduct of the two numbers: "
+quotient: .asciiz "\nQuotient of the two numbers: "
+same: .asciiz "\nUser inputs are the same"
+notSame: .asciiz "\nUser inputs are not the same"
 
 .text
 

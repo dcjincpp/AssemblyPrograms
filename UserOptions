@@ -1,0 +1,263 @@
+#Name: David Jin
+#Date: March 22, 2023
+#Objectives
+#-get two numbers ints from a susere
+#-display a menu to a user
+#-get user menu selection
+#-complete arithmetic operation
+#-display the result to the user
+#Include objectives from practice input and output II
+#-error handling
+#-reprompt user with muneu from new input/invalid input
+
+.data
+num1: .asciiz "Please enter an int: "
+num2: .asciiz "\nPlease enter another int: "
+menu: .asciiz "\nOperation Menu \n1) addition\n2) subtraction\n3) multiplication\n4) division\n5)new numbers"
+instruction: .asciiz "\nPlease enter an int between 1 and 4 to select your operation or 5 to enter new numbers: "
+invalidInput: .asciiz "\nInvalid input, try again.\n"
+newOp: .asciiz "\nDo you want to do another operation? (1 for yes, any other int for no): "
+# show operation symbols for user display
+addSym: .asciiz " + "
+subSym: .asciiz " - "
+mulSym: .asciiz " x "
+divSym: .asciiz " / "
+eqlSym: .asciiz " = "
+
+.text
+main: 
+numbers: 
+	#print out user num1 prompt
+	li $v0, 4
+	la $a0, num1
+	syscall
+	
+	#get user num1
+	li $v0, 5
+	syscall
+	move $t0, $v0	#user int1 stored in $t0
+
+	#print out user num2 prompt
+	li $v0, 4
+	la $a0, num2
+	syscall
+	
+	#get user num2
+	li $v0, 5
+	syscall
+	move $t1, $v0	#user int2 stored in $t1	
+	
+MENU: 
+	#print out menu string
+	li $v0, 4
+	la $a0, menu
+	syscall
+	
+	#get user input
+	li $v0, 4
+	la $a0, instruction
+	syscall
+	
+	li $v0, 5
+	syscall
+	move $t7, $v0	#user menu selection stored in $t7
+
+#-conditional statement based of fuser selection
+#-check user input (if valid or invalid)
+#-if valid -> go to selected operation
+#-if invalid -> reprompt to select menu item
+
+	#if $t7 less than 4
+	# -> new label: check if value is less than 0, and between 0 and 4
+	#inavlid and valid branch
+	
+	beq $t7, 1, ADD
+	beq $t7, 2, SUB
+	beq $t7, 3, MUL
+	beq $t7, 4, DIV
+	beq $t7, 5, numbers
+	
+	li $v0, 4
+	la $a0, invalidInput
+	syscall
+	j MENU
+	
+ADD:
+	#display the operation to the user
+	#display num1 stored in $t0
+	li $v0, 1
+	move $a0, $t0
+	syscall
+	
+	#display the operation symbol
+	li $v0, 4
+	la $a0, addSym
+	syscall
+	
+	#display num2 stored in $t1
+	li $v0, 1
+	move $a0, $t1
+	syscall
+	
+	#complete the operation (store result in $t2)
+	add $t2, $t0, $t1
+	
+	#display result symbol
+	li $v0, 4
+	la $a0, eqlSym
+	syscall
+	
+	#display result stored in $t2 to user
+	li $v0, 1
+	move $a0, $t2
+	syscall
+	
+	#if new numbers, prompt (1 for yes, 2 for no)
+	li $v0, 4
+	la $a0, newOp
+	syscall
+	
+	li $v0, 5
+	syscall
+	move $t4, $v0
+	
+	#compare user input if 1 or 2 for new numbers
+	beq $t4, 1, MENU
+	
+	j exit
+	
+SUB:
+	#display the operation to the user
+	#display num1 stored in $t0
+	li $v0, 1
+	move $a0, $t0
+	syscall
+	
+	#display the operation symbol
+	li $v0, 4
+	la $a0, subSym
+	syscall
+	
+	#display num2 stored in $t1
+	li $v0, 1
+	move $a0, $t1
+	syscall
+	
+	#complete the operation (store result in $t2)
+	sub $t2, $t0, $t1
+	
+	#display result symbol
+	li $v0, 4
+	la $a0, eqlSym
+	syscall
+	
+	#display result stored in $t2 to user
+	li $v0, 1
+	move $a0, $t2
+	syscall
+	
+	#if new numbers, prompt (1 for yes, 2 for no)
+	li $v0, 4
+	la $a0, newOp
+	syscall
+	
+	li $v0, 5
+	syscall
+	move $t4, $v0
+	
+	#compare user input if 1 or 2 for new numbers
+	beq $t4, 1, MENU
+	
+	j exit
+	
+MUL:
+	#display the operation to the user
+	#display num1 stored in $t0
+	li $v0, 1
+	move $a0, $t0
+	syscall
+	
+	#display the operation symbol
+	li $v0, 4
+	la $a0, mulSym
+	syscall
+	
+	#display num2 stored in $t1
+	li $v0, 1
+	move $a0, $t1
+	syscall
+	
+	#complete the operation (store result in $t2)
+	mulo $t2, $t0, $t1
+	
+	#display result symbol
+	li $v0, 4
+	la $a0, eqlSym
+	syscall
+	
+	#display result stored in $t2 to user
+	li $v0, 1
+	move $a0, $t2
+	syscall
+	
+	#if new numbers, prompt (1 for yes, 2 for no)
+	li $v0, 4
+	la $a0, newOp
+	syscall
+	
+	li $v0, 5
+	syscall
+	move $t4, $v0
+	
+	#compare user input if 1 or 2 for new numbers
+	beq $t4, 1, MENU
+	
+	j exit
+	
+DIV:
+	#display the operation to the user
+	#display num1 stored in $t0
+	li $v0, 1
+	move $a0, $t0
+	syscall
+	
+	#display the operation symbol
+	li $v0, 4
+	la $a0, divSym
+	syscall
+	
+	#display num2 stored in $t1
+	li $v0, 1
+	move $a0, $t1
+	syscall
+	
+	#complete the operation (store result in $t2)
+	div $t2, $t0, $t1
+	
+	#display result symbol
+	li $v0, 4
+	la $a0, eqlSym
+	syscall
+	
+	#display result stored in $t2 to user
+	li $v0, 1
+	move $a0, $t2
+	syscall
+	
+	#if new numbers, prompt (1 for yes, 2 for no)
+	li $v0, 4
+	la $a0, newOp
+	syscall
+	
+	li $v0, 5
+	syscall
+	move $t4, $v0
+	
+	#compare user input if 1 or 2 for new numbers
+	beq $t4, 1, MENU
+	
+	j exit
+	
+exit:
+	li $v0, 10
+	syscall

@@ -1,0 +1,32 @@
+#Name: David Jin
+#Date: April 7, 2023
+#Objectives:
+# -main label
+# -macro for printing string named 'printing'
+# -loop mechanism
+# -exit macro named 'exit'
+.macro exit
+	li $v0, 10
+	syscall
+.end_macro
+
+.macro printing
+	li $v0, 4
+	la $a0, string
+	syscall
+.end_macro
+
+.data
+string: .asciiz "\nString"
+
+.text
+main:
+loop:
+	move $t0, $zero
+	printing
+	addi $t7, $t7, 1
+	beq $t7, 5, finish
+	j loop
+	
+finish:
+	exit
