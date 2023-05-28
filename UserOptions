@@ -1,14 +1,19 @@
-#Name: David Jin
-#Date: March 22, 2023
-#Objectives
-#-get two numbers ints from a susere
-#-display a menu to a user
-#-get user menu selection
-#-complete arithmetic operation
-#-display the result to the user
-#Include objectives from practice input and output II
-#-error handling
-#-reprompt user with muneu from new input/invalid input
+.macro getInt
+li $v0, 5
+syscall
+.end_macro
+
+.macro addTwo(%first, %second)
+
+add $t2, %first, %second
+
+.end_macro
+
+.macro printInt(%int)
+li $v0, 1
+move $a0, %int
+syscall
+.end_macro
 
 .data
 num1: .asciiz "Please enter an int: "
@@ -33,8 +38,7 @@ numbers:
 	syscall
 	
 	#get user num1
-	li $v0, 5
-	syscall
+	getInt
 	move $t0, $v0	#user int1 stored in $t0
 
 	#print out user num2 prompt
@@ -43,8 +47,7 @@ numbers:
 	syscall
 	
 	#get user num2
-	li $v0, 5
-	syscall
+	getInt
 	move $t1, $v0	#user int2 stored in $t1	
 	
 MENU: 
@@ -100,7 +103,7 @@ ADD:
 	syscall
 	
 	#complete the operation (store result in $t2)
-	add $t2, $t0, $t1
+	addTwo($t0, $t1)
 	
 	#display result symbol
 	li $v0, 4
@@ -108,9 +111,7 @@ ADD:
 	syscall
 	
 	#display result stored in $t2 to user
-	li $v0, 1
-	move $a0, $t2
-	syscall
+	printInt($t2)
 	
 	#if new numbers, prompt (1 for yes, 2 for no)
 	li $v0, 4
@@ -152,9 +153,7 @@ SUB:
 	syscall
 	
 	#display result stored in $t2 to user
-	li $v0, 1
-	move $a0, $t2
-	syscall
+	printInt($t2)
 	
 	#if new numbers, prompt (1 for yes, 2 for no)
 	li $v0, 4
@@ -196,9 +195,7 @@ MUL:
 	syscall
 	
 	#display result stored in $t2 to user
-	li $v0, 1
-	move $a0, $t2
-	syscall
+	printInt($t2)
 	
 	#if new numbers, prompt (1 for yes, 2 for no)
 	li $v0, 4
@@ -240,9 +237,7 @@ DIV:
 	syscall
 	
 	#display result stored in $t2 to user
-	li $v0, 1
-	move $a0, $t2
-	syscall
+	printInt($t2)
 	
 	#if new numbers, prompt (1 for yes, 2 for no)
 	li $v0, 4

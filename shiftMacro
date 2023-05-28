@@ -1,0 +1,23 @@
+.macro shift(%int)
+addi $t1, $t0, %int
+.end_macro
+
+.macro printAscii(%int)
+li $v0, 11
+move $a0, %int
+syscall
+.end_macro
+
+.data
+
+.text
+main:
+	printAscii(68)
+	printAscii(97)
+	printAscii(118)
+	printAscii(105)
+	printAscii(100)
+	
+exit:
+	li $v0, 10
+	syscall

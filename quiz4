@@ -1,0 +1,56 @@
+.macro getInt
+li $v0, 5
+syscall
+move $t7, $v0
+.end_macro
+
+.macro addTwo(%first, %second)
+
+add $t1, %first, %second
+
+.end_macro
+
+.macro printInt(%int)
+li $v0, 1
+move $a0, %int
+syscall
+.end_macro
+
+.data
+menu: .asciiz "\nPlease select an operation to complete:\n1) addition\n2) subtraction\n3) multiplication\n4) divison\nPlease enter a number 1-4: "
+promptUser: .asciiz"\nPlease enter an integer: "
+promptUser2: .asciiz"Please enter an integer: "
+invalidInput: .asciiz "****Try Again****"
+.text
+main:
+MENU: 
+	#print out menu string
+	li $v0, 4
+	la $a0, menu
+	syscall
+	
+	getInt	#user menu selection stored in $t7
+	
+	#beq $t7, 1, ADD
+	#beq $t7, 2, SUB
+	#beq $t7, 3, MUL
+	#beq $t7, 4, DIV
+	
+	li $v0, 4
+	la $a0, invalidInput
+	syscall
+	#j MENU
+	
+	li $v0, 4
+	la $a0, promptUser
+	syscall
+	getInt
+	move $t0, $t7
+	syscall
+	getInt
+	move $t1, $t7
+	
+
+exit:
+	li $v0, 10
+	syscall

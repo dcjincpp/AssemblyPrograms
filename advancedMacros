@@ -1,0 +1,59 @@
+#Name: David jin
+#Date: April  12, 2023
+#Objectives:
+# - macro that takes in an array
+# - macro that gets user input
+# - macro that takes multiple parameters
+#.include .eqv
+.include "macrosExternal.asm"
+
+.data
+array1: .word 1, 2, 3
+buffer: .space 4
+array2: .word 5, 6, 7
+userInput: .space 64	#string length will be max 63 (n-1) characters
+
+.text
+main:
+	#la $s0, array1 #loads bas address of array1 into $s
+	#lw $s1, 0($s0) #1
+	#lw $s2, 4($s0) #2
+	#lw $s3, 8($s0) #3
+	
+	#next element expected is 4
+	#addi $s4, $s3, 1
+	
+	#store
+	#sw $s4, 12($s0)
+	
+	getArr(array1)
+	
+	#li $v0, 1
+	#move $a0, $s4
+	#syscall
+	
+	getArr(array2)
+	
+	#li $v0, 1
+	#move $a0, $s4
+	
+	#get user string
+	#two arguments: $a0=address of the buffer and $a1=length of the string
+	#li $v0, 8
+	#la $a0, userInput
+	#li $a1, 63
+	#syscall
+	
+	#move content in buffer to another register
+	#move $t1, $a0
+	
+	getInput
+	
+	parameters(7, "\ncheese")
+	
+	
+	#exit
+	li $v0, 10
+	syscall
+	
+	

@@ -1,0 +1,75 @@
+.macro defString(%str)
+li $v0, 4
+la $a0, %str
+syscall
+.end_macro
+
+.macro userString
+.data
+buffer: .space 51
+.text
+la $a0, buffer
+la $a1, 52
+li $v0, 8
+syscall
+move $s1, $a0
+.end_macro
+
+.macro printAddress
+li $v0, 1
+move $a0, $s1
+syscall
+.end_macro
+
+.macro printInt(%int)
+li $v0, 1
+move $a0, %int
+syscall
+.end_macro
+
+.macro exit
+defString(done)
+li $v0, 10
+syscall
+.end_macro
+
+.data
+days: .word 31, 28, 31, 30, 31, 30, 31, 30, 30, 31, 30, 31
+enterString: .asciiz "Please enter a string (max 50 chars): "
+array: .asciiz "Days array elements are: "
+firstAddress: .asciiz "\nThe address for first string is: "
+secondAddress: .asciiz "\nThe address for second string is: "
+done: .asciiz "\nThe program will now exit"
+space: .asciiz " "
+.text
+main:
+	defString(enterString)
+	userString
+	move $s2, $s1
+	defString(enterString)
+	userString
+	move $s3, $s1
+	defString(array)
+	la $s0, days
+	move $t1, $zero
+loop:
+	lw $t0, 0($s0)
+	printInt($t0)
+	defString(space)
+	
+	addi $s0, $s0, 4
+	addi $t1, $t1, 1
+
+	beq $t1, 12, strings
+	j loop
+	
+strings:
+	move $s1, $s2
+	defString(firstAddress)
+	printAddress
+	move $s1, $s3
+	defString(secondAddress)
+	printAddress
+	
+end:
+	exit

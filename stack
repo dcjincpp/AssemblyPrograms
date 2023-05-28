@@ -1,0 +1,52 @@
+#Nam: David Jin
+#Date: April 26, 2023
+#Objectives:
+# -print out the $sp (address)
+# -push an int onto the stack
+# -print ou the new $sp (address)
+
+.data
+stackPointer: .asciiz "\nThe current stack address is: "
+newLine: .asciiz "\n"
+
+.text
+main:
+	#Print out the address
+	li $v0, 4
+	la $a0, stackPointer
+	syscall
+
+	li $v0, 1
+	move $a0, $sp
+	syscall
+
+	#Push an int(12) onto the stack
+	li $s0, 12
+	sw $s0, -4($sp)
+	sub $sp, $sp, 4
+	
+	#Print out address after pushing element
+	li $v0, 4
+	la $a0, stackPointer
+	syscall
+
+	li $v0, 1
+	move $a0, $sp
+	syscall
+	
+	#Pop
+	sw $zero, 0($sp)
+	addi $sp, $sp, 4
+	
+	#Print out address after popping element
+	li $v0, 4
+	la $a0, stackPointer
+	syscall
+
+	li $v0, 1
+	move $a0, $sp
+	syscall
+
+exit:
+	li $v0, 10
+	syscall

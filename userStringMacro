@@ -1,0 +1,28 @@
+#Name: David Jin
+#Date: April 14, 2023
+#Objectives:
+# -Read string from user with macro
+
+.data
+ray: .word 1, 2, 3
+buffer: .space 4
+#Array2
+
+.text
+main:
+
+	#get user string
+	la $a0, buffer
+	la $a1, 10
+	li $v0, 8
+	syscall
+	move $s1, $a0
+	
+	li $v0, 4
+	move $a0, $s1
+	syscall
+	 
+	
+	#exit
+	li $v0, 10
+	syscall

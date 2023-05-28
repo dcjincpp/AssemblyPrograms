@@ -1,0 +1,56 @@
+#Name: David Jin
+#Date: May 5, 2023
+#Objectives:
+# -Use recursion
+# -Determine if user's integer input is a power of 2
+
+.data
+intro: .asciiz "Welcome! This program checks if the number you entered is a power of 2.\n"
+user: .asciiz "\nPlease enter an integer: "
+entered: .asciiz "\nYou entered: "
+notPower: .asciiz "\nThe number you entered is NOT a power of 2. Goodbye."
+isPower: .asciiz "\nThe number you entered is a power of 2. Goodbye."
+new: .asciiz "/nWould you like to enter a new number? 1 for yes, 2 for no: "
+
+.text
+main:
+	li $v0, 4
+	la $a0, intro
+	syscall
+	la $a0, user
+	syscall
+
+	li $v0, 5
+	syscall
+	move $t1, $v0
+	
+	li $v0, 4
+	la $a0, entered
+	syscall
+	
+	li $v0, 1
+	move $a0, $t1
+	syscall
+	
+recursion:
+	beq $t2, 1, no
+	beq $t1, 2, yes
+	div $t1, $t1, 2
+	mflo $t2
+	j recursion
+	
+yes:
+	li $v0, 4
+	la $a0, isPower
+	syscall
+	j exit
+
+no:
+	li $v0, 4
+	la $a0, notPower
+	syscall
+	
+	
+exit:
+	li $v0, 10
+	syscall

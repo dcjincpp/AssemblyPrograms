@@ -1,0 +1,50 @@
+#Name: David jin
+#Date: April  10, 2023
+#Objectives:
+# - use macro aString defined in class
+.macro aString(%strings)
+li $v0, 4
+.data
+inputString: .asciiz %strings
+.text
+la $a0, inputString
+syscall
+.end_macro
+
+.macro defString(%str)
+li $v0, 4
+la $a0, %str
+syscall
+.end_macro
+
+.macro parameters(%int, %string)
+#double the int
+la $t1, %int
+add $t1, $t1, $t1
+li $v0, 1
+move $a0, $t1
+syscall
+#call another macro to print the word/string
+aString(%string)
+.end_macro
+
+.data
+hello: .asciiz "\nhello world"
+gibberish: .asciiz "ensrvekih"
+givenArray: .word 1, 2, 3
+
+.text
+main:
+	move $t1, $zero
+loop:
+	aString("Hello\n")
+	addi $t1, $t1, 1
+	beq $t1, 3, task2
+	j loop
+	
+task2:
+	parameters(7, " Bye")
+		
+exit:
+	li $v0, 10
+	syscall

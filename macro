@@ -16,15 +16,57 @@
 	syscall
 .end_macro
 
+.macro addTwo(%first, %second)
+
+add $t1, %first, %second
+
+.end_macro
+
+.macro printInt(%int)
+li $v0, 1
+li $a0, %int
+syscall
+
+.end_macro
+
+.macro getInput
+.data
+userInput: .space 64
+.text
+li $v0, 8
+la $a0, userInput
+li $a1, 63
+syscall
+move $t1, $a0
+.end_macro
+
 .data
 string: .asciiz "\nString"
 
 .text
 main:
-loop:
+	getInput
+	li $v0, 4
+	move $a0, $t1
+	syscall
+	#loop counter
 	move $t0, $zero
+	
+	printInt(9969420)
+	li $t0, 10
+	li $t2, 12
+	addTwo($t0, $t2)
+	
+	li $v0, 1
+	move $a0, $t1
+	syscall
+	
+loop:
+	#print string
 	printing
+	#increment loop counter by 1
 	addi $t7, $t7, 1
+	#if loop counter equals 5, finish
 	beq $t7, 5, finish
 	j loop
 	
